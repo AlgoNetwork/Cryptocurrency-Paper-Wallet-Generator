@@ -1,3 +1,4 @@
+Author:koraylinux
 ### Lightweight, open-source, universal paper wallet generator
 
 #### Features
