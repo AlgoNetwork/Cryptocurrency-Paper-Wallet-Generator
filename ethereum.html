@@ -8,18 +8,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/style2.css">
 </head>
-<body onload="generate()">
+<body  >
 <div id="container"><br>
 <div class="noprint"><button onclick="generate()">Generate</button>
 <button onclick="window.print()">Print</button>
 <a href="index.html"><input type="button" value="Home"/></a></div>
+
+<!---->
+<br>
+<div>
+<label>My address need include(The longer the custom string, the longer the generation time):</label>
+<br>
+<input id="SpecifyKeyword" type="" name=""  placeholder="66">
+<button onclick="generate();">Generate customize address</button>
+</div>
+<!---->
+
+
 <table>
 <tr><h1 id="titlePaper"><span id="currencyName">Ethereum Paper Wallet</h1></tr>
 <tr><th class="grayHeaders">Public Address <span id="shareColor">(SHARE)</span></th></tr>
-<tr><td><div id="public">Generating...</div></td></tr>
+<tr><td><div id="public">  </div></td></tr>
 <tr><td><div id="public_qr"></div></td></tr>
 <tr><th class="grayHeaders"><div id="secretLabel">Private Key <span id="secretColor">(SECRET)</span></div></th></tr>
-<tr><td><div id="secret">Generating...</div></td></tr>
+<tr><td><div id="secret"> </div></td></tr>
 <tr><td><div id="secret_qr"></div></td></tr>
 </table>
 </div>
@@ -30,17 +42,52 @@ const urlParam = window.location.search.substring(1); if(urlParam){document.getE
 <script src="js/qrcode.js"></script>
 <script>
 function generate() {
-const account = new Web3EthAccounts();
-const keyPair = account.create();
-const pubKey = JSON.parse(JSON.stringify(keyPair.address));
-const privKey = JSON.parse(JSON.stringify(keyPair.privateKey));
+var account  ;
+var keyPair  ;
+var pubKey  ;
+var privKey ;
+
+
+/////////////////////////////////////
+ 
+var CustomString=document.getElementById('SpecifyKeyword').value;
+console.log("CustomString",CustomString );
+console.log("CustomString.length",CustomString.length);
+ 
+
+do {
+var step;
+
+  account = new Web3EthAccounts();
+  keyPair = account.create();
+  pubKey = JSON.parse(JSON.stringify(keyPair.address));
+  privKey = JSON.parse(JSON.stringify(keyPair.privateKey));
+ 
+
+  var LastString = pubKey.substr(pubKey.length - CustomString.length); 
+console.log('pubKey:',LastString);
+
+//document.getElementById("publicAddress").innerHTML = pubKey;
+ 
+ // if (pubKey.includes("888")) {
+
+  // break;
+ // }
+} while (!LastString.includes(CustomString));
+
+//}
+
+   console.log('******pubKey:',pubKey);
+/////////////////////////////////////
+
+
 document.getElementById("public").textContent = pubKey;
 document.getElementById("secret").textContent = privKey;
 document.getElementById("public_qr").textContent = "";
 document.getElementById("secret_qr").textContent = "";
 new QRCode(document.getElementById("public_qr"), {text: pubKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});
 new QRCode(document.getElementById("secret_qr"), {text: privKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});}
-document.getElementById("update").textContent = "Latest update: " + document.lastModified;
+ 
 </script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 					<meta name="viewport" content="width=device-width, initial-scale=1">
 							<link rel="stylesheet" href="css/style2.css">
 							</head>
-							<body onload="generate()">
+							<body  >
 								<div id="container">
 									<br>
 										<div class="noprint">
@@ -18,6 +18,18 @@
 												<input type="button" value="Home"/>
 											</a>
 										</div>
+
+<!---->
+<br>
+<div>
+<label>My address need include(The longer the custom string, the longer the generation time):</label>
+<br>
+<input id="SpecifyKeyword" type="" name=""  placeholder="66">
+<button onclick="generate();">Generate customize address</button>
+</div>
+<!---->
+
+
 										<table>
 											<tr>
 													<h1 id="titlePaper">Bitcoin Paper Wallet</h1>
@@ -29,7 +41,7 @@
 											</tr>
 											<tr>
 												<td>
-													<div id="public">Generating...</div>
+													<div id="public"> </div>
 												</td>
 											</tr>
 											<tr>
@@ -46,7 +58,7 @@
 											</tr>
 											<tr>
 												<td>
-													<div id="secret">Generating...</div>
+													<div id="secret">  </div>
 												</td>
 											</tr>
 											<tr>
@@ -60,16 +72,49 @@
 														<script src="js/qrcode.js"></script>
 														<script>
 function generate() {
-const keyPair = bitcoin.ECPair.makeRandom();
-const pubKey = keyPair.getAddress();
-const privKey = keyPair.toWIF();
+
+/////////////////////////////////////
+var keyPair  ;
+var pubKey  ;
+var privKey  ; 
+
+var CustomString=document.getElementById('SpecifyKeyword').value;
+console.log("CustomString",CustomString );
+console.log("CustomString.length",CustomString.length);
+ 
+
+do {
+var step;
+
+   keyPair = bitcoin.ECPair.makeRandom();
+  pubKey = keyPair.getAddress();
+  privKey = keyPair.toWIF();
+ 
+
+  var LastString = pubKey.substr(pubKey.length - CustomString.length); 
+console.log('pubKey:',LastString);
+
+//document.getElementById("publicAddress").innerHTML = pubKey;
+ 
+ // if (pubKey.includes("888")) {
+
+  // break;
+ // }
+} while (!LastString.includes(CustomString));
+
+//}
+
+   console.log('******pubKey:',pubKey);
+/////////////////////////////////////
+
+
 document.getElementById("public").textContent = pubKey;
 document.getElementById("secret").textContent = privKey;
 document.getElementById("public_qr").textContent = "";
 document.getElementById("secret_qr").textContent = "";
 new QRCode(document.getElementById("public_qr"), {text: pubKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});
 new QRCode(document.getElementById("secret_qr"), {text: privKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});}
-document.getElementById("update").textContent = "Latest update: " + document.lastModified;
+ 
                                                         </script>
     </body>
 </html>

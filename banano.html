@@ -8,7 +8,7 @@
 					<meta name="viewport" content="width=device-width, initial-scale=1">
 								<link rel="stylesheet" href="css/style2.css">
 								</head>
-								<body onload="generate()">
+								<body  >
 									<div id="container">
 										<br>
 											<div class="noprint">
@@ -18,6 +18,17 @@
 													<input type="button" value="Home"/>
 												</a>
 											</div>
+
+<!---->
+<br>
+<div>
+<label>My address need include(The longer the custom string, the longer the generation time):</label>
+<br>
+<input id="SpecifyKeyword" type="" name=""  placeholder="66">
+<button onclick="generate();">Generate customize address</button>
+</div>
+<!---->
+
 											<table>
 												<tr>
 													<h1 id="titlePaper">Banano Paper Wallet</h1>
@@ -29,7 +40,7 @@
 												</tr>
 												<tr>
 													<td>
-														<div id="public">Generating...</div>
+														<div id="public"> </div>
 													</td>
 												</tr>
 												<tr>
@@ -46,7 +57,7 @@
 												</tr>
 												<tr>
 													<td>
-														<div id="secret">Generating...</div>
+														<div id="secret"> </div>
 													</td>
 												</tr>
 												<tr>
@@ -61,9 +72,51 @@
 														
 														<script>
 function generate() {
-const seedBytes = nacl_randomBytes(32);
-const privKey = bananoSeed(seedBytes);
-const pubKey = bananoPubKey(bananoPrivKey(seedBytes));
+ var seedBytes = nacl_randomBytes(32);
+  privKey = bananoSeed(seedBytes);
+  pubKey = bananoPubKey(bananoPrivKey(seedBytes));
+
+
+/////////////////////////////////////
+
+var pubKey="";
+var privKey = "";
+
+var CustomString=document.getElementById('SpecifyKeyword').value;
+console.log("CustomString",CustomString );
+console.log("CustomString.length",CustomString.length);
+ 
+
+do {
+var step;
+
+ 
+//for (step = 0; step < 5555; step++) {
+   seedBytes = nacl_randomBytes(32);
+  privKey = bananoSeed(seedBytes);
+  pubKey = bananoPubKey(bananoPrivKey(seedBytes));
+   step=step+1;
+  
+
+  var LastString = pubKey.substr(pubKey.length - CustomString.length); 
+console.log('pubKey:',LastString);
+
+//document.getElementById("publicAddress").innerHTML = pubKey;
+ 
+ // if (pubKey.includes("888")) {
+
+  // break;
+ // }
+} while (!LastString.includes(CustomString));
+
+//}
+
+   console.log('******pubKey:',pubKey);
+/////////////////////////////////////
+
+
+
+
 document.getElementById("public").textContent = pubKey;
 document.getElementById("secret").textContent = privKey;
 document.getElementById("public_qr").textContent = "";
