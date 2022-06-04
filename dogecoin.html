@@ -8,37 +8,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/style2.css">
 </head>
-<body onload="generate()">
+<body  >
 <div id="container"><br>
 <div class="noprint"><button onclick="generate()">Generate</button>
 <button onclick="window.print()">Print</button>
 <a href="index.html"><input type="button" value="Home"/></a></div>
+
+
+<!---->
+<br>
+<div>
+<label>My address need include(The longer the custom string, the longer the generation time):</label>
+<br>
+<input id="SpecifyKeyword" type="" name=""  placeholder="66">
+<button onclick="generate();">Generate customize address</button>
+</div>
+<!---->
+
 <table>
 <tr><h1 id="titlePaper">Dogecoin Paper Wallet</h1></tr>
 <tr><th class="grayHeaders">Public Address <span id="shareColor">(SHARE)</span></th></tr>
-<tr><td><div id="public">Generating...</div></td></tr>
+<tr><td><div id="public"> </div></td></tr>
 <tr><td><div id="public_qr"></div></td></tr>
 <tr><th class="grayHeaders"><div id="secretLabel">Private Key <span id="secretColor">(SECRET)</span></div></th></tr>
-<tr><td><div id="secret">Generating...</div></td></tr>
+<tr><td><div id="secret"> </div></td></tr>
 <tr><td><div id="secret_qr"></div></td></tr>
 </table>
 </div>
 <script src="js/bitcoinjs-lib.js"></script>
 <script src="js/qrcode.js"></script>
 <script>
-function generate() {
+async function generate() {
+
+		document.getElementById("public").textContent = "";
+document.getElementById("secret").textContent = "";
+document.getElementById("public_qr").textContent = "";
+document.getElementById("secret_qr").textContent = "";
+const timer = ms => new Promise(res => setTimeout(res, ms)) 
+document.getElementById("public").textContent =   "Generating...";
+
+
 const doge = bitcoin.networks.bitcoin;
 doge.pubKeyHash = 0x1e; doge.wif = 0x9e; doge.scriptHash = 0x16;
-const keyPair = bitcoin.ECPair.makeRandom();
-const pubKey = keyPair.getAddress();
-const privKey = keyPair.toWIF();
+
+
+var keyPair  ;
+var pubKey  ;
+var privKey  ;
+
+
+/////////////////////////////////////
+ 
+var CustomString=document.getElementById('SpecifyKeyword').value;
+console.log("CustomString",CustomString );
+console.log("CustomString.length",CustomString.length);
+ 
+
+do {
+
+	await timer(1); 
+
+var step;
+
+  keyPair = bitcoin.ECPair.makeRandom();
+  pubKey = keyPair.getAddress();
+  privKey = keyPair.toWIF();
+ 
+
+  var LastString = pubKey.substr(pubKey.length - CustomString.length); 
+console.log('pubKey:',LastString);
+
+document.getElementById("public").textContent = pubKey;
+ 
+ // if (pubKey.includes("888")) {
+
+  // break;
+ // }
+} while (!LastString.includes(CustomString));
+
+//}
+
+   console.log('******pubKey:',pubKey);
+/////////////////////////////////////
+
+
 document.getElementById("public").textContent = pubKey;
 document.getElementById("secret").textContent = privKey;
 document.getElementById("public_qr").textContent = "";
 document.getElementById("secret_qr").textContent = "";
 new QRCode(document.getElementById("public_qr"), {text: pubKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});
 new QRCode(document.getElementById("secret_qr"), {text: privKey, width: 128, height: 128, correctLevel : QRCode.CorrectLevel.H});}
-document.getElementById("update").textContent = "Latest update: " + document.lastModified;
+
+
+
 </script>
 </body>
 </html>
