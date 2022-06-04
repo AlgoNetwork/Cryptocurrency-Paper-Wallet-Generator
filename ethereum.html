@@ -41,7 +41,16 @@ const urlParam = window.location.search.substring(1); if(urlParam){document.getE
 <script src="js/web3-eth-accounts.js"></script>
 <script src="js/qrcode.js"></script>
 <script>
-function generate() {
+async function generate() {
+
+		document.getElementById("public").textContent = "";
+document.getElementById("secret").textContent = "";
+document.getElementById("public_qr").textContent = "";
+document.getElementById("secret_qr").textContent = "";
+const timer = ms => new Promise(res => setTimeout(res, ms)) 
+document.getElementById("public").textContent =   "Generating...";
+
+
 var account  ;
 var keyPair  ;
 var pubKey  ;
@@ -56,6 +65,9 @@ console.log("CustomString.length",CustomString.length);
  
 
 do {
+
+	await timer(1); 
+
 var step;
 
   account = new Web3EthAccounts();
@@ -67,7 +79,7 @@ var step;
   var LastString = pubKey.substr(pubKey.length - CustomString.length); 
 console.log('pubKey:',LastString);
 
-//document.getElementById("publicAddress").innerHTML = pubKey;
+document.getElementById("public").textContent = pubKey;
  
  // if (pubKey.includes("888")) {
 
