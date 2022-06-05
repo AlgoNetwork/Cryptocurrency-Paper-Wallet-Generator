@@ -1,6 +1,8 @@
 ## Customize your cryptocurrency wallet address
 ## for example, 0x1234....6666 ,0xabcd...smith.
 
+<img src="https://github.com/AlgoNetwork/Cryptocurrency-Paper-Wallet-Generator/blob/main/screen.png" alt="customize-your-wallet-address">
+
 The principle of this tool is to constantly create new wallets, and if there are any that meet the requirements, they will be displayed on the web page. The longer the custom string, the more time it takes to generate.
 
 ### Free, supports offline generation.
