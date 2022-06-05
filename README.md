@@ -1,4 +1,10 @@
-Author:koraylinux
+## Customize your cryptocurrency wallet address
+## for example, 0x1234....6666 ,0xabcd...smith.
+
+The principle of this tool is to constantly create new wallets, and if there are any that meet the requirements, they will be displayed on the web page. The longer the custom string, the more time it takes to generate.
+
+### Free, supports offline generation.
+
 ### Lightweight, open-source, universal paper wallet generator
 
 #### Features
