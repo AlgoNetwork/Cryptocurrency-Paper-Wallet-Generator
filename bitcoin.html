@@ -22,10 +22,14 @@
 <!---->
 <br>
 <div>
-<label>My address need include(The longer the custom string, the longer the generation time):</label>
+<label>My Public/Private address need include(The longer the custom string, the longer the generation time):</label>
 <br>
 <input id="SpecifyKeyword" type="" name=""  placeholder="66">
-<button onclick="generate();">Generate customize address</button>
+<br><br>
+<button onclick="generate(true);">Generate custom public address</button>
+ 
+<button onclick="generate(false);">Generate custom private address</button>
+
 </div>
 <!---->
 
@@ -73,7 +77,9 @@
 													<script>
 
 
-async function generate() {
+async function generate(isPublic) {
+
+console.log("isPublic",isPublic );
 
 document.getElementById("public").textContent = "";
 document.getElementById("secret").textContent = "";
@@ -102,10 +108,20 @@ var step;
   privKey = keyPair.toWIF();
  
 
-  var LastString = pubKey.substr(pubKey.length - CustomString.length); 
-console.log('pubKey:',LastString);
-document.getElementById("public").textContent = pubKey;
+  var LastString ;
 
+if (isPublic) {
+LastString= pubKey.substr(pubKey.length - CustomString.length); 
+
+}else{
+	LastString= privKey.substr(privKey.length - CustomString.length); 
+}
+
+  
+console.log('LastString:',LastString);
+
+document.getElementById("public").textContent = pubKey;
+document.getElementById("secret").textContent = privKey;
  
  // if (pubKey.includes("888")) {
 
